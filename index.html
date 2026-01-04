@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Web Builder – Academic Edition</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:system-ui;background:linear-gradient(135deg,#eef2ff,#ffffff);}
+.fade{animation:fade .5s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.block{transition:all .35s ease}
+.block:hover{transform:translateY(-6px)}
+.drag{cursor:grab}
+.dragging{opacity:.4}
+</style>
+</head>
+<body class="min-h-screen">
+<header class="bg-white shadow p-4 flex justify-between">
+<h1 class="font-bold text-indigo-600">AI Web Builder</h1>
+<span class="text-sm text-gray-500">Diseña sin saber programar</span>
+</header>
+
+<main class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+
+<section class="bg-white rounded-xl shadow p-4">
+<h2 class="font-semibold mb-2">Asistente IA 🤖</h2>
+<p class="text-sm mb-3">Respóndeme y construiré tu sitio</p>
+<input id="idea" class="w-full border p-2 rounded mb-2" placeholder="Describe tu proyecto" />
+<button onclick="generate()" class="w-full bg-indigo-600 text-white py-2 rounded">Generar sitio</button>
+<button onclick="suggest()" class="w-full mt-2 border py-2 rounded">Sugerencias IA</button>
+<button onclick="exportSite()" class="w-full mt-2 border py-2 rounded">Exportar sitio</button>
+</section>
+
+<section class="bg-white rounded-xl shadow p-4">
+<h2 class="font-semibold mb-3">Estilos 🎨</h2>
+<div class="grid grid-cols-2 gap-2">
+<button onclick="style='edu';generate()" class="border p-3 rounded">🎓 Educativo</button>
+<button onclick="style='creative';generate()" class="border p-3 rounded">🎨 Creativo</button>
+<button onclick="style='startup';generate()" class="border p-3 rounded">🚀 Startup</button>
+<button onclick="style='elegant';generate()" class="border p-3 rounded">🖤 Elegante</button>
+</div>
+</section>
+
+<section class="bg-white rounded-xl shadow overflow-hidden">
+<iframe id="preview" class="w-full h-[520px]"></iframe>
+</section>
+</main>
+
+<script>
+let style='edu';
+
+function template(){
+const colors={edu:'#6366f1',creative:'#ec4899',startup:'#0ea5e9',elegant:'#111827'};
+return `<!DOCTYPE html><html><head><style>
+body{margin:0;font-family:system-ui;background:#fff;}
+.hero{padding:80px;text-align:center;background:${colors[style]};color:white}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding:48px}
+.card{padding:32px;border-radius:16px;background:#f9fafb;box-shadow:0 10px 25px rgba(0,0,0,.1)}
+</style></head><body>
+<div class="hero"><h1>Tu proyecto merece verse increíble</h1><p>Diseño generado por IA</p></div>
+<div class="blocks" id="blocks">
+<div class="card block drag" draggable="true">Sección 1</div>
+<div class="card block drag" draggable="true">Sección 2</div>
+<div class="card block drag" draggable="true">Sección 3</div>
+</div>
+</body></html>`}
+
+function generate(){
+document.getElementById('preview').srcdoc=template();}
+
+function suggest(){alert('💡 La IA sugiere: añade una sección con imágenes y un CTA claro para mejorar impacto.');}
+
+function exportSite(){
+const blob=new Blob([template()],{type:'text/html'});
+const a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='mi_sitio.html';
+a.click();}
+
+generate();
+</script>
+</body>
+</html>
